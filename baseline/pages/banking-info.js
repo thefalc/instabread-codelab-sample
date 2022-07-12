@@ -34,57 +34,7 @@ class BankingInfoPage extends Component {
   async bankingHandler(event) {
     event.preventDefault();
 
-    // Create the Moov account.
-    const result = await fetch('/api/moov-account-creation', {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST'
-    });
-
-    const payload = await result.json();
-    let skyflowId = payload.skyflowId;
-
-    // Account was successfully created.
-    if(payload.ok === true) {
-      const skyflowClient = Skyflow.init({
-        vaultID: process.env.vaultID,
-        vaultURL: process.env.vaultURL,
-        getBearerToken: getBearerToken,
-        options: {
-          env: Skyflow.Env.DEV
-        }
-      });
-  
-      // Save bank information to the vault.
-      let response = await skyflowClient.insert({
-        records: [
-          {
-            fields: {
-              bank_account_number: this.state.accountNumber,
-              bank_routing_number: this.state.routingNumber,
-              shoppers_skyflow_id: skyflowId,
-              account_holder_name: this.state.holderName
-            },
-            table: 'shoppers_bank_information'
-          }
-        ]
-      }, { tokens: true });
-
-      // Create the Moov bank account.
-      const result = await fetch('/api/moov-bank-account-creation', {
-        body: JSON.stringify(response.records[0]),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'POST'
-      });
-
-      const payload = await result.json();
-      if(payload.ok === true) {
-        window.location.href = '/congratulations';
-      }
-    }
+    alert('Functionality doesn\'t exist yet.');
   }
 
   render() {	

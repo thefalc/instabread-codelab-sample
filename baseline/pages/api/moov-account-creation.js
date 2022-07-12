@@ -61,6 +61,6 @@ export default withIronSessionApiRoute(
       console.dir(e);
     }
 
-    res.send({ ok: true });
+    res.send({ ok: true, skyflowId: shopper.fields.skyflow_id });
   }, ironOptions,
 );
