@@ -1,0 +1,51 @@
+.form-control { 
+  font-size: 20px;
+}
+
+.carousel-item img {
+  height: 324px;
+  margin: 0 auto;
+}
+
+.carousel-caption {
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  position: relative;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.carousel-caption p {
+  color: #999;
+}
+
+a.btn {
+  font-size: 18px;
+  line-height: 36px;
+  height: 48px;
+}
+
+.btn {
+  font-size: 18px;
+  line-height: 36px;
+  height: 48px;
+  border-radius: 10px;
+}
+
+.btn-success {
+  background-color: #0AAD0A;
+  border-color: #0AAD0A;
+}
+
+h1.title {
+  font-size: 70px;
+  color: #fff;
+  padding-top: 10px;
+  text-shadow: 2px 2px #000;
+}
+
+.row-no-gutter {
+  --bs-gutter-x: 0;
+}
