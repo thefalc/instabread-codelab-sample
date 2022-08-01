@@ -43,10 +43,10 @@ git clone https://github.com/thefalc/instabread-codelab-sample
 
 Let’s take a look at the starter code structure that you’ll work with throughout the codelab. The project uses the Next.js framework, but even if you’ve never worked with this framework before, you should be able to complete the lab.
 
-Navigate to the `/baseline` directory within the repository and view its content. It contains the following elements:
+Navigate to the [/baseline](/baseline) directory within the repository and view its content. It contains the following elements:
 
 * **components**: This directory contains reusable front-end components.
-* **pages**: This directory contains the individual pages used in the Instabread shopper sign up application. `index.js` is where the app begins.
+* **pages**: This directory contains the individual pages used in the Instabread shopper sign up application. [index.js](/baseline/pages/index.js) is where the app begins.
 * **pages/api**: This directory contains the backend Node.js code.
 * **public**: This directory contains front-end static references like CSS and images.
 * **util**: This contains utility files for session management.
@@ -85,7 +85,7 @@ The Instrabread vault schema defines the tables, columns, and privacy and securi
 To create the vault
 
 1. In the Vault Dashboard, begin by clicking **Create Vault > Upload Vault Schema**
-1. In the modal dialog that opens, drag the `instabread-codelab-sample/data/vault_schema.json` file onto the dialog and then click **Upload**.
+1. In the modal dialog that opens, drag the [instabread-codelab-sample/data/vault_schema.json](instabread-codelab-sample/data/vault_schema.json) file onto the dialog and then click **Upload**.
 1. In the schema view that’s shown, click the pencil icon next to the default vault title and rename it as &lt;YOUR NAME> Instabread and then click **Create Vault.**
 
 ![Edit vault name](images/skyflow-studio-edit-vault-name.png "Edit vault name")
@@ -114,7 +114,7 @@ The general tab contains the basic details about the column, including the name,
 
 ##### Redaction
 
-Redaction is a privacy preservation technique that partially or fully obscures data. In the case of the email column, the data is partially obscured by default using masking. An email like “[john.doe@gmail.com](mailto:john.doe@gmail.com)” would be masked as “j******e@gmail.com”.
+Redaction is a privacy preservation technique that partially or fully obscures data. In the case of the email column, the data is partially obscured by default using masking. An email like “john.doe@gmail.com” would be masked as “j******e@gmail.com”.
 
 You can modify the masking scheme as needed, but the Skyflow Data Types pre-configure this value for PII where masking is often used.
 
@@ -146,7 +146,9 @@ Before jumping into the code, you need to create a role, policy, and service acc
 
 1. From the vault schema view of your vault, click the gear icon next to the name of your vault and then click **Edit Settings**.
 
-<img src="images/edit-settings-view.png" width="300" />
+<p align="center">
+  <img src="images/edit-settings-view.png" width="300" />
+</p>
 
 1. Click **Roles**, then click **Add New Role**.
 1. Enter "Client SDK" for **Name**, enter a description, then click **Create**.
@@ -189,14 +191,14 @@ In this section, you will collect the Instabread shopper account information and
 
 ### Understanding the code
 
-1. Open the `components/Layout.js` file. This file is used by every client-side page for creating the base HTML for the page layout.
+1. Open the [components/Layout.js](/baseline/components/Layout.js) file. This file is used by every client-side page for creating the base HTML for the page layout.
 1. At the top of the file, there’s a function called `getBearerToken`. This function calls the server endpoint `api/skyflow-token`, which uses your service account key to generate an access token that your client-side code can use to call the APIs for your vault. You don’t need to do any updates or modifications to this file.
-1. Open the `pages/sign-up.js` file. This file is the front-end for the shopper account creation page.
+1. Open the [pages/sign-up.js](/baseline/pages/sign-up.js) file. This file is the front-end for the shopper account creation page.
 1. Scroll down to a function called `signUpHandler`. This function is invoked when the **Create account** button is clicked.
 
 ### Configure the Skyflow Client
 
-Currently, when the `signUpHandler` function is invoked, it shows an alert to the user informing them that this functionality doesn’t exist yet. You are going to update this function to send the collected data to your vault. To update the pages/sign-up.js file, follow these steps:
+Currently, when the `signUpHandler` function is invoked, it shows an alert to the user informing them that this functionality doesn’t exist yet. You are going to update this function to send the collected data to your vault. To update the [pages/sign-up.js](/baseline/pages/sign-up.js) file, follow these steps:
 
 1. Remove the line starting with `alert`.
 1. Copy the code below and paste it into the `signUpHandler` below the `event.preventDefault()` line.
@@ -217,7 +219,7 @@ This code block initializes the Skyflow client object. The first two parameters 
 > **Tip:**
 > You can find the vault ID and vault URL values in the Edit vault details section of your Instabread vault.
 
-1. Navigate to the `baseline` directory and open the `next.config.js` file. You should see the following:
+1. Navigate to the `baseline` directory and open the [next.config.js](/baseline/next.config.js) file. You should see the following:
 
 ```javascript
 module.exports = {
@@ -233,7 +235,7 @@ module.exports = {
 
 ### Inserting data into the vault
 
-Navigate to the pages directory and open `sign-up.js`. After the `skyflowClient` initialization, copy and paste in the code below.
+Navigate to the pages directory and open [pages/sign-up.js](/baseline/pages/sign-up.js). After the `skyflowClient` initialization, copy and paste in the code below.
 
 ```javascript
 let response = await skyflowClient.insert({
@@ -283,7 +285,7 @@ npm run dev
 
 The last thing you need to do is pass the newly created `skyflow_id` and token data for the account to the server to be stored in the session. These values will be required later for other parts of this lab.
 
-Back in the `pages/sign-up.js` file in the `signUpHandler` function, find the line starting with `alert` and replace it with the following code.
+Back in the [pages/sign-up.js](/baseline/pages/sign-up.js) file in the `signUpHandler` function, find the line starting with `alert` and replace it with the following code.
 
 ```javascript
 // Call sign-up passing in record object.
@@ -303,7 +305,7 @@ if(result.ok === true) {
 
 The fetch call passes the tokenized data to the server endpoint `api/sign-up`.
 
-If you open the `pages/api/sign-up.js` file and inspect the handler, you’ll see that this code receives the data and stores the `skyflow_id` and tokenized data to a user session variable.
+If you open the [pages/api/sign-up.js](/baseline/pages/api/sign-up.js) file and inspect the handler, you’ll see that this code receives the data and stores the `skyflow_id` and tokenized data to a user session variable.
 
 > **Note:**
 > In a real application, you would likely store the skyflow_id and tokens in your application database and downstream services to be referenced and used later. For simplicity of this lab, we'll rely on session memory to play this role.
@@ -316,8 +318,8 @@ In this section, you will collect information about which stores the shopper is 
 
 ### Understanding the code
 
-1. Open the file `pages/choose-stores.js`. This file contains the front-end code for displaying the store selection page.
-2. Scroll down to the function `initStores`. This function calls the backend endpoint `api/list-stores` to read the list of possible stores. If you look at `/pages/api/list-stores.js`, you can see the handler simply returns a static list of stores. In an actual application, these stores would be based on the location of the shopper account and likely pulled from an application database.
+1. Open the file [pages/choose-stores.js](/baseline/pages/choose-stores.js). This file contains the front-end code for displaying the store selection page.
+2. Scroll down to the function `initStores`. This function calls the backend endpoint `api/list-stores` to read the list of possible stores. If you look at [pages/api/list-stores.js](/baseline/pages/api/list-stores.js), you can see the handler simply returns a static list of stores. In an actual application, these stores would be based on the location of the shopper account and likely pulled from an application database.
 3. Scroll to the `chooseStoreHandler` function. This function is called when the **Continue** button is clicked. Currently, this function takes the selected store IDs and maps them to full store details in the static store list, creating a sublist of stores. The `storeMapping` object is the resulting list of records that need to be written to the shoppers_stores vault table.
 
 ### Inserting data into the vault
@@ -536,7 +538,7 @@ The first thing you will do is update the client-side code to call the server to
 
 #### Understanding the code
 
-1. Open the `pages/banking-info.js` file. This file is the frontend for the shopper bank information entry.
+1. Open the [pages/banking-info.js](/baseline/pages/banking-info.js) file. This file is the frontend for the shopper bank information entry.
 2. Scroll down to a function called `bankingHandler`. This function is invoked when the **Continue** button is clicked.
 3. Currently when this function is invoked, it shows an alert to the user informing them that this functionality doesn’t exist yet. You are going to update this function to send the collected data to your vault.
 
@@ -565,7 +567,7 @@ if(result.ok === true) {
 
 The code is calling the endpoint `/api/moov-account-creation`, which is going to do the heavy lifting for using the Skyflow connection API to create the Moov account.
 
-1. Open  `/pages/api/moov-account-creation.js`. This file contains the server-side code to create the Moov account using only the tokenized data. At the top of this file you can see that the Moov SDK is being initialized with the environment variables you configured previously.
+1. Open [pages/api/moov-account-creation.js](/baseline/pages/api/moov-account-creation.js). This file contains the server-side code to create the Moov account using only the tokenized data. At the top of this file you can see that the Moov SDK is being initialized with the environment variables you configured previously.
 1. Scroll down to the line beginning with `const body = {`. This defines the body of the payload that will be passed to the route you configured. The `firstName`, `lastName`, and `email` are using the tokens you stored in the user session variable after a shopper registers their account.
 1. The next two lines create authentication tokens for Moov and Skyflow. These are both needed to make the connections API call. The Skyflow token is used to authenticate your request to the connections API and the Moov token is used for Skyflow to call Moov on your behalf.
 1. Find the line that starts with `let connectionsRouteUrl`. You need to update this URL with the route you created earlier for Moov account creation.
@@ -574,7 +576,7 @@ The code is calling the endpoint `/api/moov-account-creation`, which is going to
 
 1. Go back to Skyflow Studio and from your vault’s schema view, click the gear icon next to the name of your vault and then click **Edit Settings**.
 1. Click **Connections**. From the list, expand the connection you created earlier and find the route called Moov Account Creation.
-1. Click **Sample request** and copy the **Path**. This is your route URL. Paste the path back in the `/api/moov-account-creation.js` as the value to the `connectionsRouteUrl` variable.
+1. Click **Sample request** and copy the **Path**. This is your route URL. Paste the path back in the [pages/api/moov-account-creation.js](/baseline/pages/api/moov-account-creation.js) as the value to the `connectionsRouteUrl` variable.
 
 <p align="center">
   <img src="images/skyflow-create-acccount-route.png" width="500" />
@@ -598,7 +600,7 @@ Now that your shopper has a Moov account, you need to collect the shopper’s ba
 
 #### Understanding the code
 
-1. Open the `pages/banking-info.js` file and find the `bankingHandler` function again.
+1. Open the [pages/banking-info.js](/baseline/pages/banking-info.js) file and find the `bankingHandler` function again.
 1. Find the `// TODO` inside the `bankingHandler` and replace it with the code below.
 
 ```javascript
@@ -642,7 +644,7 @@ if(payload.ok === true) {
 ```
 
 1. Similar to the code you added for storing the shopper account information in the vault, this code is storing the banking information in the vault and receiving tokens back. The tokens are then posted to the `/api/moov-bank-account-creation` endpoint.
-1. Open the file `/pages/api/moov-bank-account-creation.js`. This handler accepts the tokens representing the banking information from the shopper and securely shares them with Moov via the second route you created earlier.
+1. Open the file [pages/api/moov-bank-account-creation.js](/baseline/pages/api/moov-bank-account-creation.js). This handler accepts the tokens representing the banking information from the shopper and securely shares them with Moov via the second route you created earlier.
 1. Scroll down to the line beginning with `let connectionsRouteUrl`. Update this URL to the Moov Bank Account Creation route URL. Make sure that you replace the `{accountId}` portion in the URL with the `moovAccountId` constant similar to the following:
 
 ```javascript
@@ -675,9 +677,9 @@ All you need to do now is to make sure your shopper’s get paid. The Instabread
 
 ### Understanding the code
 
-1. Open the `pages/cashout.js` file. This is the front-end code for confirming that a shopper wants to cashout the money they’ve earned.
+1. Open the [pages/cash-out.js](/baseline/pages/cash-out.js) file. This is the front-end code for confirming that a shopper wants to cashout the money they’ve earned.
 1. Scroll down to the `cashOutHandler`. This function is called when you click on the **Cashout $64.00** button. It currently makes an API call to the `/api/cashout` endpoint.
-1. Open the `/pages/api/cashout.js` file. Currently this handler function doesn’t do anything. We need to add the Moov API calls to carry out a money transfer. We can use the Moov APIs directly rather than through Skyflow because none of the data required to perform a transaction contains sensitive customer data.
+1. Open the [pages/api/cashout.js](/baseline/pages/api/cashout.js) file. Currently this handler function doesn’t do anything. We need to add the Moov API calls to carry out a money transfer. We can use the Moov APIs directly rather than through Skyflow because none of the data required to perform a transaction contains sensitive customer data.
 1. Copy the code below and replace the `// TODO` line in the `handler` function.
 
 ```javascript
