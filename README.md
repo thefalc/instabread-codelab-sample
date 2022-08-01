@@ -104,7 +104,7 @@ Once the vault is created, take a few minutes to explore the schema. There are t
 
 In the shoppers table, click on any column header’s down arrow and then select **View column**. You should see a dialog that looks similar to the one below.
 
-![Email column](images/skyflow-email-column.png "Email column" | width=500)
+<img src="images/skyflow-email-column.png" width="500" />
 
 The dialog has four tabs: **General**, **Redaction**, **Encrypted Operations**, and **Tokenization**.
 
@@ -118,13 +118,13 @@ Redaction is a privacy preservation technique that partially or fully obscures d
 
 You can modify the masking scheme as needed, but the Skyflow Data Types pre-configure this value for PII where masking is often used.
 
-![Redaction tab](images/skyflow-redaction-tab.png "Redaction tab")
+<img src="images/skyflow-redaction-tab.png" width="500" />
 
 ##### Encrypted Operations
 
 All data within the vault is encrypted at rest and during transit, but through a technique called [polymorphic encryption](https://www.skyflow.com/post/a-look-at-polymorphic-encryption-the-new-paradigm-of-data-privacy), many operations can be performed over fully encrypted data. In the case of the email column, you can perform exact match operations without ever decrypting the data. For numeric fields, comparison and aggregation operations like average and sum are supported.
 
-![Encryption tab](images/skyflow-encryption-tab.png "Encryption tab")
+<img src="images/skyflow-encryption-tab.png" width="500" />
 
 ##### Tokenization
 
@@ -132,7 +132,7 @@ All data within the vault is encrypted at rest and during transit, but through a
 
 For the email column, the default configuration is to use a **Format Preserving Deterministic Token**. This means the token will still look like an email, but not be the actual email.
 
-![Tokenization tab](images/skyflow-tokenization-tab.png "Tokenization tab")
+<img src="images/skyflow-tokenization-tab.png" width="500" />
 
 ### Create API credentials
 
@@ -140,7 +140,7 @@ Before jumping into the code, you need to create a role, policy, and service acc
 
 1. From the vault schema view of your vault, click the gear icon next to the name of your vault and then click **Edit Settings**.
 
-![Edit vault settings](images/edit-settings-view.png "Edit vault settings")
+<img src="images/edit-settings-view.png" width="300" />
 
 1. Click **Roles**, then click **Add New Role**.
 1. Enter "Client SDK" for **Name**, enter a description, then click **Create**.
@@ -267,7 +267,9 @@ npm run dev
 1. Fill in all fields in the form. There’s currently no client-side form validation, so make sure you fill in everything.
 1. Click **Create Account** and once the call is complete, you should see an alert message on your screen containing the JSON response from the API similar to the image below.
 
-![JSON example](images/instabread-json-alert.png "JSON example")
+<p align="center">
+  <img src="images/instabread-json-alert.png" width="300" />
+</p>
 
 1. Go back into Skyflow Studio to your vault schema view and you should now see a record inserted into your vault. If you were already in this view, you may need to refresh the table to see the new record.
 
@@ -348,15 +350,19 @@ npm run dev
 1. Navigate to `https://localhost:3000` in your browser.
 1. Click the **Sign Up** button.
 1. Fill in all fields in the form. There’s currently no client-side form validation, so make sure you fill in everything.
-1. Click **Create Account** and once the call is complete you’ll be taken to a screen showing you how Instabread works. If you don’t see a screen like this, then there may be an error in the client side code to create the account. Go back to the [Saving the tokenized data](#heading=h.y3we2zfncrzh) section and make sure you have the correct code for the sign up page working before moving on or ask for help.
+1. Click **Create Account** and once the call is complete you’ll be taken to a screen showing you how Instabread works. If you don’t see a screen like this, then there may be an error in the client side code to create the account. Go back to the [Saving the tokenized data](#saving-the-tokenized-data) section and make sure you have the correct code for the sign up page working before moving on.
 
-![How Instabread works](images/how-instabread-works.png "How Instabread works")
+<p align="center">
+  <img src="images/how-instabread-works.png" width="500" />
+</p>
 
 1. Click the **Continue** button.
 1. On the shopper requirements page, click the **I meet the requirements** button.
 1. You should now see a screen similar to what’s shown below.
 
-![Choose store](images/choose-store.png "Choose store")
+√<p align="center">
+  <img src="images/choose-store.png" width="500" />
+</p>
 
 1. Select at least one option and then click **Continue**.
 1. Once the screen shows the direct deposit page, go back to Skyflow Studio and to your vault schema view. Click the tab for the shoppers_stores table and you should see one to four records there depending on how many you selected.
@@ -423,7 +429,9 @@ We will create a route that has a similar structure but instead of accepting the
 
     For this route, configure the connection to detokenize the request and extract the values associated with three fields: `profile.individual.name.firstName`, `profile.individual.name.lastName`, and `profile.individual.email` similar to the image below.
 
-![Moov create account route](images/skyflow-moov-account-route.png "Moov create account route")
+<p align="center">
+  <img src="images/skyflow-moov-account-route.png" width="500" />
+</p>
 
 1. For this example, a response body will not be added. Click **Continue** and then **Create Connection**.
 
@@ -455,7 +463,9 @@ Before you head back to the Instabread code, you need to create one more route t
 1. Scroll down the page and complete the route mappings for the **Request body**.
     For this route, configure the connection to detokenize the request and extract the values associated with three fields: `account.holderName`, `account.accountNumber`, and `account.routingNumber` similar to the image below.
 
-![Moov bank account creation route](images/skyflow-bank-account-creation-route.png "Moov bank account creation route")
+<p align="center">
+  <img src="images/skyflow-bank-account-creation-route.png" width="500" />
+</p>
 
 1. Click **Save Route** and then click **Save **to save the connection.
 
@@ -560,7 +570,9 @@ The code is calling the endpoint `/api/moov-account-creation`, which is going to
 1. Click **Connections**. From the list, expand the connection you created earlier and find the route called Moov Account Creation.
 1. Click **Sample request** and copy the **Path**. This is your route URL. Paste the path back in the `/api/moov-account-creation.js` as the value to the `connectionsRouteUrl` variable.
 
-![Create account route URL](images/skyflow-create-acccount-route.png "Create account route URL")
+<p align="center">
+  <img src="images/skyflow-create-acccount-route.png" width="500" />
+</p>
 
 #### Testing the result
 
