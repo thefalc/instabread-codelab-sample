@@ -14,7 +14,6 @@ In this codelab, you’re going to extend the shopper sign up experience to safe
 
 <p align="center">
   <img src="/images/instabread-overview.png" />
-  <figcaption align="center"><em>Example of the Instabread Shopper Sign Up Process</em></figcaption>
 </p>
 
 ### What you’ll learn
