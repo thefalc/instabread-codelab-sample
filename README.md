@@ -14,9 +14,8 @@ In this codelab, you’re going to extend the shopper sign up experience to safe
 
 <p align="center">
   <img src="/images/instabread-overview.png" />
+  <figcaption align="center"><em>Example of the Instabread Shopper Sign Up Process</em></figcaption>
 </p>
-
-<figcaption align = "center"><em>Example of the Instabread Shopper Sign Up Process</em></figcaption>
 
 ### What you’ll learn
 * How to use Skyflow Studio to create a data privacy vault.
@@ -104,7 +103,9 @@ Once the vault is created, take a few minutes to explore the schema. There are t
 
 In the shoppers table, click on any column header’s down arrow and then select **View column**. You should see a dialog that looks similar to the one below.
 
-<img src="images/skyflow-email-column.png" width="500" />
+<p align="center">
+  <img src="images/skyflow-email-column.png" width="500" />
+</p>
 
 The dialog has four tabs: **General**, **Redaction**, **Encrypted Operations**, and **Tokenization**.
 
@@ -118,13 +119,17 @@ Redaction is a privacy preservation technique that partially or fully obscures d
 
 You can modify the masking scheme as needed, but the Skyflow Data Types pre-configure this value for PII where masking is often used.
 
-<img src="images/skyflow-redaction-tab.png" width="500" />
+<p align="center">
+  <img src="images/skyflow-redaction-tab.png" width="500" />
+</p>
 
 ##### Encrypted Operations
 
 All data within the vault is encrypted at rest and during transit, but through a technique called [polymorphic encryption](https://www.skyflow.com/post/a-look-at-polymorphic-encryption-the-new-paradigm-of-data-privacy), many operations can be performed over fully encrypted data. In the case of the email column, you can perform exact match operations without ever decrypting the data. For numeric fields, comparison and aggregation operations like average and sum are supported.
 
-<img src="images/skyflow-encryption-tab.png" width="500" />
+<p align="center">
+  <img src="images/skyflow-encryption-tab.png" width="500" />
+</p>
 
 ##### Tokenization
 
@@ -132,7 +137,9 @@ All data within the vault is encrypted at rest and during transit, but through a
 
 For the email column, the default configuration is to use a **Format Preserving Deterministic Token**. This means the token will still look like an email, but not be the actual email.
 
-<img src="images/skyflow-tokenization-tab.png" width="500" />
+<p align="center">
+  <img src="images/skyflow-tokenization-tab.png" width="500" />
+</p>
 
 ### Create API credentials
 
