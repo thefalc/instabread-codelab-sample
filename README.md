@@ -85,7 +85,7 @@ The Instrabread vault schema defines the tables, columns, and privacy and securi
 To create the vault
 
 1. In the Vault Dashboard, begin by clicking **Create Vault > Upload Vault Schema**
-1. In the modal dialog that opens, drag the [instabread-codelab-sample/data/vault_schema.json](instabread-codelab-sample/data/vault_schema.json) file onto the dialog and then click **Upload**.
+1. In the modal dialog that opens, drag the [/data/vault_schema.json](/data/vault_schema.json) file onto the dialog and then click **Upload**.
 1. In the schema view that’s shown, click the pencil icon next to the default vault title and rename it as &lt;YOUR NAME> Instabread and then click **Create Vault.**
 
 ![Edit vault name](images/skyflow-studio-edit-vault-name.png "Edit vault name")
@@ -219,7 +219,7 @@ This code block initializes the Skyflow client object. The first two parameters 
 > **Tip:**
 > You can find the vault ID and vault URL values in the Edit vault details section of your Instabread vault.
 
-1. Navigate to the `baseline` directory and open the [next.config.js](/baseline/next.config.js) file. You should see the following:
+1. Navigate to the baseline directory and open the [next.config.js](/baseline/next.config.js) file. You should see the following:
 
 ```javascript
 module.exports = {
@@ -368,7 +368,7 @@ npm run dev
 1. On the shopper requirements page, click the **I meet the requirements** button.
 1. You should now see a screen similar to what’s shown below.
 
-√<p align="center">
+<p align="center">
   <img src="images/choose-store.png" width="500" />
 </p>
 
@@ -677,7 +677,7 @@ All you need to do now is to make sure your shopper’s get paid. The Instabread
 
 ### Understanding the code
 
-1. Open the [pages/cash-out.js](/baseline/pages/cash-out.js) file. This is the front-end code for confirming that a shopper wants to cashout the money they’ve earned.
+1. Open the [pages/cashout.js](/baseline/pages/cashout.js) file. This is the front-end code for confirming that a shopper wants to cashout the money they’ve earned.
 1. Scroll down to the `cashOutHandler`. This function is called when you click on the **Cashout $64.00** button. It currently makes an API call to the `/api/cashout` endpoint.
 1. Open the [pages/api/cashout.js](/baseline/pages/api/cashout.js) file. Currently this handler function doesn’t do anything. We need to add the Moov API calls to carry out a money transfer. We can use the Moov APIs directly rather than through Skyflow because none of the data required to perform a transaction contains sensitive customer data.
 1. Copy the code below and replace the `// TODO` line in the `handler` function.
