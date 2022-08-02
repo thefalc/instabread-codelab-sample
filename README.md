@@ -1,7 +1,6 @@
 # Data Privacy and Payments with an API
 
 ## Introduction
-
 ### Secure PII collection and money movement with Skyflow and Moov
 
 This codelab is an introduction to creating a modern privacy-preserving application that supports secure PII data collection and payments. You’ll use Skyflow’s Data Privacy Vault available as an API and Moov’s payment APIs to create a gig worker app sign up flow and payment experience.
@@ -45,10 +44,10 @@ Let’s take a look at the starter code structure that you’ll work with throug
 
 Navigate to the [/baseline](/baseline) directory within the repository and view its content. It contains the following elements:
 
-* **components**: This directory contains reusable front-end components.
+* **components**: This directory contains reusable frontend components.
 * **pages**: This directory contains the individual pages used in the Instabread shopper sign up application. [index.js](/baseline/pages/index.js) is where the app begins.
 * **pages/api**: This directory contains the backend Node.js code.
-* **public**: This directory contains front-end static references like CSS and images.
+* **public**: This directory contains frontend static references like CSS and images.
 * **util**: This contains utility files for session management.
 * **package.json, package-lock.json**: Configuration files for dependencies and running the application.
 
@@ -193,7 +192,7 @@ In this section, you will collect the Instabread shopper account information and
 
 1. Open the [components/Layout.js](/baseline/components/Layout.js) file. This file is used by every client-side page for creating the base HTML for the page layout.
 1. At the top of the file, there’s a function called `getBearerToken`. This function calls the server endpoint `api/skyflow-token`, which uses your service account key to generate an access token that your client-side code can use to call the APIs for your vault. You don’t need to do any updates or modifications to this file.
-1. Open the [pages/sign-up.js](/baseline/pages/sign-up.js) file. This file is the front-end for the shopper account creation page.
+1. Open the [pages/sign-up.js](/baseline/pages/sign-up.js) file. This file is the frontend for the shopper account creation page.
 1. Scroll down to a function called `signUpHandler`. This function is invoked when the **Create account** button is clicked.
 
 ### Configure the Skyflow Client
@@ -318,7 +317,7 @@ In this section, you will collect information about which stores the shopper is 
 
 ### Understanding the code
 
-1. Open the file [pages/choose-stores.js](/baseline/pages/choose-stores.js). This file contains the front-end code for displaying the store selection page.
+1. Open the file [pages/choose-stores.js](/baseline/pages/choose-stores.js). This file contains the frontend code for displaying the store selection page.
 2. Scroll down to the function `initStores`. This function calls the backend endpoint `api/list-stores` to read the list of possible stores. If you look at [pages/api/list-stores.js](/baseline/pages/api/list-stores.js), you can see the handler simply returns a static list of stores. In an actual application, these stores would be based on the location of the shopper account and likely pulled from an application database.
 3. Scroll to the `chooseStoreHandler` function. This function is called when the **Continue** button is clicked. Currently, this function takes the selected store IDs and maps them to full store details in the static store list, creating a sublist of stores. The `storeMapping` object is the resulting list of records that need to be written to the shoppers_stores vault table.
 
@@ -379,7 +378,7 @@ npm run dev
 
 Congratulations on making it this far!
 
-You have successfully collected PII from the Instabread shopper application in a secure way by sending it directly from the front-end to your data privacy vault. Your backend system is completely de-scoped from ever touching any of this sensitive data.
+You have successfully collected PII from the Instabread shopper application in a secure way by sending it directly from the frontend to your data privacy vault. Your backend system is completely de-scoped from ever touching any of this sensitive data.
 
 The next step is for you to collect banking information from the shopper, securely store it, passing relevant information to Moov and then use Moov’s money movement APIs to pay the shopper. The first step to this process is to create a Skyflow Connection to Moov.
 
@@ -677,7 +676,7 @@ All you need to do now is to make sure your shopper’s get paid. The Instabread
 
 ### Understanding the code
 
-1. Open the [pages/cashout.js](/baseline/pages/cashout.js) file. This is the front-end code for confirming that a shopper wants to cashout the money they’ve earned.
+1. Open the [pages/cashout.js](/baseline/pages/cashout.js) file. This is the frontend code for confirming that a shopper wants to cashout the money they’ve earned.
 1. Scroll down to the `cashOutHandler`. This function is called when you click on the **Cashout $64.00** button. It currently makes an API call to the `/api/cashout` endpoint.
 1. Open the [pages/api/cashout.js](/baseline/pages/api/cashout.js) file. Currently this handler function doesn’t do anything. We need to add the Moov API calls to carry out a money transfer. We can use the Moov APIs directly rather than through Skyflow because none of the data required to perform a transaction contains sensitive customer data.
 1. Copy the code below and replace the `// TODO` line in the `handler` function.
