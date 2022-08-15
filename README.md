@@ -642,7 +642,7 @@ if(payload.ok === true) {
 
 1. Similar to the code you added for storing the shopper account information in the vault, this code is storing the banking information in the vault and receiving tokens back. The tokens are then posted to the **/api/moov-bank-account-creation** endpoint.
 1. Open the file [**pages/api/moov-bank-account-creation.js**](/baseline/pages/api/moov-bank-account-creation.js). This handler accepts the tokens representing the banking information from the shopper and securely shares them with Moov via the second route you created earlier.
-1. Scroll down to the line beginning with **let connectionsRouteUrl**. Update this URL to the Moov Bank Account Creation route URL. Make sure that you replace the `{accountId}` portion in the URL with the `**moovAccountId**` constant similar to the following:
+1. Scroll down to the line beginning with **let connectionsRouteUrl**. Update this URL to the Moov Bank Account Creation route URL. Make sure that you replace the **{accountId}** portion in the URL with the **moovAccountId** constant similar to the following:
 
 ```javascript
 let connectionsRouteUrl = `https://ebfc9bee4242.gateway.skyflowapis.com/v1/gateway/outboundRoutes/h3e5a644a8674b29a9bfcbdfbccf16fe/accounts/${moovAccountId}/bank-accounts`;
@@ -656,7 +656,7 @@ let connectionsRouteUrl = `https://ebfc9bee4242.gateway.skyflowapis.com/v1/gatew
 npm run dev
 ```
 
-1. Navigate to `https://localhost:3000` in your browser.
+1. Navigate to **http://localhost:3000** in your browser.
 1. Go through the various screens until you reach the **Set up direct deposit** screen.
 1. Fill in the **Holder name** with anything you wish.
 1. For the **Routing number**, enter 322271627, which is Chase Bank’s routing number.
@@ -674,10 +674,10 @@ All you need to do now is to make sure your shopper’s get paid. The Instabread
 
 ### Understanding the code
 
-1. Open the [pages/cashout.js](/baseline/pages/cashout.js) file. This is the frontend code for confirming that a shopper wants to cashout the money they’ve earned.
-1. Scroll down to the `cashOutHandler`. This function is called when you click on the **Cashout $64.00** button. It currently makes an API call to the `/api/cashout` endpoint.
-1. Open the [pages/api/cashout.js](/baseline/pages/api/cashout.js) file. Currently this handler function doesn’t do anything. We need to add the Moov API calls to carry out a money transfer. We can use the Moov APIs directly rather than through Skyflow because none of the data required to perform a transaction contains sensitive customer data.
-1. Copy the code below and replace the `// TODO` line in the `handler` function.
+1. Open the [**pages/cashout.js**](/baseline/pages/cashout.js) file. This is the frontend code for confirming that a shopper wants to cashout the money they’ve earned.
+1. Scroll down to the **cashOutHandler**. This function is called when you click on the **Cashout $64.00** button. It currently makes an API call to the **/api/cashout** endpoint.
+1. Open the [**pages/api/cashout.js**](/baseline/pages/api/cashout.js) file. Currently this handler function doesn’t do anything. We need to add the Moov API calls to carry out a money transfer. We can use the Moov APIs directly rather than through Skyflow because none of the data required to perform a transaction contains sensitive customer data.
+1. Copy the code below and replace the **// TODO** line in the **handler** function.
 
 ```javascript
 // Get the source payment method ID. The source is the Instabread business account.
@@ -706,7 +706,7 @@ const transfer = {
 await moov.transfers.create(transfer);
 ```
 
-The code uses a helper function called `getPaymentMethodId`, which uses the Moov APIs to look up the payment method ID that will be used in the account transfer call. Once the two ID values are retrieved, the money transfer object is created and the transfer is invoked via the Moov Node SDK.
+The code uses a helper function called **getPaymentMethodId**, which uses the Moov APIs to look up the payment method ID that will be used in the account transfer call. Once the two ID values are retrieved, the money transfer object is created and the transfer is invoked via the Moov Node SDK.
 
 ### Testing the result
 
@@ -715,7 +715,7 @@ The code uses a helper function called `getPaymentMethodId`, which uses the Moov
 ```shell
 npm run dev
 ```
-1. Navigate to `https://localhost:3000` in your browser.
+1. Navigate to **http://localhost:3000** in your browser.
 1. Go through the various screens until you reach the **Set up direct deposit** screen.
     1. Fill in the **Holder name** with anything you wish.
     1. For the **Routing number**, enter 322271627, which is Chase Bank’s routing number.
