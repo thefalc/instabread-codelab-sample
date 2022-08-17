@@ -480,16 +480,16 @@ Before you head back to the Instabread code, you need to create one more route t
 
 Your Skyflow connection and routes are all set. For Instabread to call the routes you configured, you need to create another environment variable for the connections-specific service account key credentials file you downloaded.
 
-1. In the terminal where you’ve been running your Instabread application, stop the application if it is currently running.
+1. In the terminal where you’ve been running your Instabread app, stop the app if it's currently running.
 1. Enter the command
     ```shell
     export CONNECTIONS_SERVICE_ACCOUNT_KEY='CONTENTS FROM CONNECTIONS-SPECIFIC credentials.json'
     ```
-1. This service account key is used later to invoke the connection to Moov. It creates the shopper’s Moov account and registers their banking information.
+1. You'll use this service account key later to invoke the connection to Moov. It creates the shopper’s Moov account and registers their banking information.
 
 ### Configure Moov API
 
-Before you complete the next coding step of the lab, you need to collect a few items from your Moov account and configure them to be used by the Instabread application.
+Before you complete the next coding step of the lab, you need to collect a few items from your Moov account and configure them to use the Instabread app.
 
 #### ngrok
 
@@ -509,7 +509,7 @@ If your Instabread app is running, go to the forwarding address shown by ngrok.
 
 1. Navigate to [https://dashboard.moov.io/signin](https://dashboard.moov.io/signin) and login to your Moov account.
 1. In the navigation menu, select **Developers > New API Key**.
-1. Enter a name for the API Key and paste in your ngrok https URL.
+1. Enter a name for the API Key and paste into your ngrok https URL.
 1. Click **Create API key**.
 1. You’ll be shown a **Public key** and **Secret key**.
 1. Copy the Public key and in the terminal running Instabread, stop the app and type **export MOOV_PUBLIC_KEY=&lt;COPIED PUBLIC KEY>**.
@@ -517,11 +517,11 @@ If your Instabread app is running, go to the forwarding address shown by ngrok.
 1. Copy your ngrok https URL and in the same terminal, type **export MOOV_DOMAIN=&lt;COPIED ngrok URL>**.
 
 > **Note:**
-> In a real deployment, your API keys should be stored with a secrets manager and retrieved from a service that has privileged access to the secrets store.
+> In a real deployment, the best practice is to store your API keys with a secrets manager and retrieve them from a service that has privileged access to the secrets store.
 
 #### Moov business account details
 
-The last thing you need is your Moov business account details. The details are used to transfer money from your business account to your gig workers.
+The last thing you need is your Moov business account details. You’ll use these details to transfer money from your business account to your gig workers.
 
 1. In the Moov admin dashboard, click **Settings** in the navigation menu.
 1. Select **Business details** copy the **Account ID**.
@@ -529,22 +529,22 @@ The last thing you need is your Moov business account details. The details are u
 
 ## Moov account and bank registration
 
-In this section, you will collect the Instabread shopper bank information and use the Skyflow connection to create a Moov account for the shopper, and register their bank information.
+In this section, you'll collect the Instabread shopper bank information and use the Skyflow connection to create a Moov account for the shopper, and register their bank information.
 
 ### Creating the Moov account
 
 The first step is to update the client-side code to call the server. You’ll use one of the routes configured in Skyflow Studio to create the Moov account and update the server-side code.
 
-#### Understanding the code
+#### Understand the code
 
 1. Open the [**pages/banking-info.js**](/baseline/pages/banking-info.js) file. This file is the frontend for the shopper bank information entry.
-2. Move down to a function called **bankingHandler**. This function is invoked when the **Continue** button is clicked.
+2. Move down to a function called **bankingHandler**. Clicking the **Continue** button invokes this function.
 3. Presently, when you invoke this function, it shows an alert to the user informing them that this feature doesn’t exist yet. You’ll update this function to send the collected data to your vault.
 
 #### Using the route to create the Moov account
 
 1. Remove the line starting with **alert**.
-1. Copy the code below and paste it into the **bankingHandler** below the **event.preventDefault()** line.
+1. Copy the following code and paste it into the **bankingHandler** below the **event.preventDefault()** line.
 
 ```javascript
 // Create the Moov account.
@@ -566,9 +566,9 @@ if(result.ok === true) {
 
 The code is calling the endpoint **/api/moov-account-creation**, which does the heavy lifting for using the Skyflow connection API to create the Moov account.
 
-1. Open [**pages/api/moov-account-creation.js**](/baseline/pages/api/moov-account-creation.js). This file contains the server-side code to create the Moov account using only the tokenized data. At the top of this file, you can see that the Moov SDK is initialized with the environment variables you configured before.
+1. Open [**pages/api/moov-account-creation.js**](/baseline/pages/api/moov-account-creation.js). This file has the server-side code to create the Moov account using only the tokenized data. At the top of this file, you can see that the Moov SDK initializes with the environment variables you configured before.
 1. Move down to the line beginning with **const body = {**. This defines the body of the payload that passes to the route you configured. The **firstName**, **lastName**, and **email** use the tokens stored in the user session variable after a shopper registers their account.
-1. The next two lines create authentication tokens for Moov and Skyflow. These are both needed to make the connections API call. The Skyflow token is used to authenticate your request to the connections API and the Moov token is used for Skyflow to call Moov on your behalf.
+1. The next two lines create authentication tokens for Moov and Skyflow. These are both needed to make the connections API call. The connections API uses the Skyflow token to authenticate your request and the Moov token uses Skyflow to call Moov on your behalf.
 1. Find the line starting with **let connectionsRouteUrl**. You need to update this URL with the route you created earlier for Moov account creation.
 
 #### Connection route URL
@@ -581,7 +581,7 @@ The code is calling the endpoint **/api/moov-account-creation**, which does the 
   <img src="images/skyflow-create-acccount-route.png" width="500" />
 </p>
 
-#### Testing the result
+#### Test the result
 
 1. From the same terminal that you exported your environment variables, enter the following command:
 
@@ -596,9 +596,9 @@ npm run dev
 
 Now that your shopper has a Moov account, you need to collect the shopper’s bank information, store it in the vault, and then use your other connection route to pass the bank information securely to Moov.
 
-#### Understanding the code
+#### Understand the code
 
-1. Open the [**pages/banking-info.js**](/baseline/pages/banking-info.js) file and find the **bankingHandler** function again.
+1. Open the [**/pages/banking-info.js**](/baseline/pages/banking-info.js) file and find the **bankingHandler** function again.
 1. Find the **// TODO** inside the **bankingHandler** and replace it with the code below.
 
 ```javascript
@@ -643,7 +643,7 @@ if(payload.ok === true) {
 
 1. Similar to the code you added for storing the shopper account information in the vault, this code is storing the banking information in the vault and receiving tokens back. The tokens are then posted to the **/api/moov-bank-account-creation** endpoint.
 1. Open the file [**pages/api/moov-bank-account-creation.js**](/baseline/pages/api/moov-bank-account-creation.js). This handler accepts the tokens representing the banking information from the shopper and securely shares them with Moov via the second route you created earlier.
-1. Move down to the line beginning with **let connectionsRouteUrl**. Update this URL to the Moov Bank Account Creation route URL. Make sure you replace the **{accountId}** portion in the URL with the **moovAccountId** constant similar to the following:
+1. Move down to the line beginning with **let connectionsRouteUrl**. Update this URL to the Moov Bank Account Creation route URL. Make sure you replace the **{accountId}** part in the URL with the **moovAccountId** constant similar to the following:
 
 ```javascript
 let connectionsRouteUrl = `https://ebfc9bee4242.gateway.skyflowapis.com/v1/gateway/outboundRoutes/h3e5a644a8674b29a9bfcbdfbccf16fe/accounts/${moovAccountId}/bank-accounts`;
@@ -663,21 +663,21 @@ npm run dev
 1. For the **Routing number**, enter 322271627, which is Chase Bank’s routing number.
 1. For the **Account number**, enter 0004321567000, which is a valid test bank account number for Moov.
 1. Click **Continue**.
-1. When the app successfully displays the Congratulations page, go to Skyflow Studio and check the **shoppers_bank_information** table. A new record is displayed. Additionally, if you look at the latest account in your Moov administrator dashboard, there is  a payment method listed under the account information.
+1. When the app successfully displays the Congratulations page, go to Skyflow Studio and check the **shoppers_bank_information** table. It shows a new record. Additionally, if you look at the latest account in your Moov administrator dashboard, there is a payment method listed under the account information.
 
 ![Moov payment information page](images/moov-account-payment-information.png "Moov payment information page")
 
 ## Pay your gig workers
 
-Congratulations! You’re nearly done.
+Congratulations! You're nearly done.
 
 All you need to do now is make sure your shoppers get paid. The Instabread shopper app is set up to automatically owe the shopper $64.00 for completed deliveries. In this section, you’ll add the final piece of client-side code to securely issue a transaction to pay the shopper.
 
 ### Understanding the code
 
 1. Open the [**pages/cashout.js**](/baseline/pages/cashout.js) file. This is the frontend code for confirming that a shopper wants to cashout the money they’ve earned.
-1. Move down to the **cashOutHandler**. This function is called when you click on the **Cashout $64.00** button. It currently makes an API call to the **/api/cashout** endpoint.
-1. Open the [**pages/api/cashout.js**](/baseline/pages/api/cashout.js) file. Presently, this handler function doesn’t do anything. We need to add the Moov API calls to carry out a money transfer. We use the Moov APIs instead of  Skyflow because no sensitive data is being exchanged.
+1. Move down to the **cashOutHandler**. Clicking on the **Cashout $64.00** button calls this function. It currently makes an API call to the **/api/cashout** endpoint.
+1. Open the [**pages/api/cashout.js**](/baseline/pages/api/cashout.js) file. Presently, this handler function doesn’t do anything. You need to add the Moov API calls to carry out a money transfer. You use the Moov APIs instead of Skyflow because sensitive data isn’t exchanged.
 1. Copy the code below and replace the **// TODO** line in the **handler** function.
 
 ```javascript
@@ -707,7 +707,7 @@ const transfer = {
 await moov.transfers.create(transfer);
 ```
 
-The code uses a helper function called **getPaymentMethodId**.It uses the Moov APIs to look up the payment method ID that makes the account transfer call. Once the two ID values are retrieved, the money transfer object is created and the transfer is invoked via the Moov Node SDK.
+The code uses a helper function called **getPaymentMethodId**. It uses the Moov APIs to look up the payment method ID that makes the account transfer call. Once the Moov APIs retrieve the two ID values, it creates the money transfer object and invokes the transfer via the Moov Node SDK.
 
 ### Test the result
 
@@ -722,7 +722,7 @@ npm run dev
     1. For the **Routing number**, enter 322271627, which is Chase Bank’s routing number.
     1. For the **Account number**, enter 0004321567000, which is a valid test bank account number for Moov.
 1. Click **Continue**.
-1. Click **Continue to my home screen**, **Cashout $64.00**, and finally **Cashout $64.00** on the **Instant checkout** screen. If everything works, a page displays with the message, "Transferring $64.00 to your bank account ending in 7000".
+1. Click **Continue to my home screen**, **Cashout $64.00**, and finally **Cashout $64.00** on the **Instant checkout** screen. If everything works, a page displays the message, "Transferring $64.00 to your bank account ending in 7000."
 
 Go to the Moov admin dashboard to view your shopper’s account. Click the **Transfer** tab to view the transaction.
 
@@ -737,7 +737,7 @@ You successfully created a gig worker sign-up and payment process that collects 
 ### What’s next?
 
 * Currently, the cashout screens don’t display bank account information. Take a look at the [reading data from a vault](https://docs.skyflow.com/core-apis/#read-data-from-the-vault) guide to explore how you display just the last four digits of the bank account number in the cashout UI.
-* The tokenized data is stored within the application session. Ideally, this would be stored in your application database. Try extending Instabread to integrate with an application database and even a data warehouse.
+* The app session stores the tokenized data. Ideally, your app database would store this information. Try extending Instabread to integrate with an app database and even a data warehouse.
 
 ### Further reading
 
