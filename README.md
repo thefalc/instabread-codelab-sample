@@ -393,7 +393,7 @@ To create the connection:
 
 1. Open Skyflow Studio to your vault’s schema view. Click the gear icon next to your vault name and click **Edit Settings**.
 1. Click **Connections** > **Create Connection** > **Start from scratch**.
-1. Name the connection **Moov**. (Optional) Enter a description.
+1. Name the connection **Moov**. Optional: Enter a description.
 1. Select **Outbound Connection** as the connection mode.
 1. Set the Outbound Base URL to [https://api.moov.io](https://api.moov.io) and click **Continue**.
 
