@@ -458,21 +458,20 @@ Before you head back to the Instabread code, you need to create one more route t
 1. Select **Connections**, find the Moov connection and click **Edit**.
 
 ![Connections UI](images/skyflow-connections-ui.png "Connections UI")
-
-1. Go to **Route** and click **+ Add route**.
-2. Enter the route details including the name, description, path, method, and content type.
+2. Go to **Route** and click **+ Add route**.
+3. Enter the route details including the name, description, path, method, and content type.
     1. **Name**: Enter “Moov Bank Account Creation”
     1. **Path**: **/accounts/{account_id}/bank-accounts**
     1. **Method**: Use the **POST** method.
     1. **Content Type**: Raw and JSON.
-3. Scroll down the page and complete the route mappings for the **Request body**.
+4. Scroll down the page and complete the route mappings for the **Request body**.
    For this route, configure the connection to detokenize the request and extract the values associated with three fields: **account.holderName**, **account.accountNumber**, and **account.routingNumber**, like the below example:
 
 <p align="center">
   <img src="images/skyflow-bank-account-creation-route.png" width="500" />
 </p>
 
-4. Click **Save Route** and then click **Save**.
+5. Click **Save Route** and then click **Save**.
 
 #### Configure your connections service account for Instabread
 
