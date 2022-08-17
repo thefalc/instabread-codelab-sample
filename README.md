@@ -59,9 +59,8 @@ Navigate to the [**/baseline**](/baseline) directory within the repository and v
 npm install
 npm run dev
 ```
-
-1. From your browser, navigate to **http://localhost:3000** and you should see the initial Instabread shopper app page.
-1. Click on the **Sign Up** button to view the account creation form. After you configure your Skyflow vault, you'll use the Skyflow client-side SDK to enable the form.
+2. From your browser, navigate to **http://localhost:3000** and you should see the initial Instabread shopper app page.
+3. Click on the **Sign Up** button to view the account creation form. After you configure your Skyflow vault, you'll use the Skyflow client-side SDK to enable the form.
 
 ## Skyflow Studio and API credentials
 
@@ -147,19 +146,19 @@ Before jumping into the code, you need to create a role, policy, and service acc
   <img src="images/edit-settings-view.png" width="300" />
 </p>
 
-1. Click **Roles > Add New Role**.
-2. Enter **Client SDK** for Name, enter a Description, then click **Create**.
-3. Click **Attach Policies** and replace the placeholder content with the following policies:
+2. Click **Roles > Add New Role**.
+3. Enter **Client SDK** for Name, enter a Description, then click **Create**.
+4. Click **Attach Policies** and replace the placeholder content with the following policies:
 
 ```
 ALLOW CREATE ON *.*
 ALLOW TOKENIZATION
 ```
-4. Click **Create**, enter **Client SDK** for the policy name. Click **Save**.
-5. Select the **Enable** option, then close the window.
-6. Click **Service Accounts > New Service Account**.
-7. Enter *Your Name* - Client SDK" and choose **Client SDK** for Roles. Click **Create**.
-8. After completing your API configuration, your browser downloads a **credentials.json** file containing your service account key. Store this file in a secure and accessible location. You'll use it exclusively to provide access tokens for API calls from the client-side SDK.
+5. Click **Create**, enter **Client SDK** for the policy name. Click **Save**.
+6. Select the **Enable** option, then close the window.
+7. Click **Service Accounts > New Service Account**.
+8. Enter *Your Name* - Client SDK" and choose **Client SDK** for Roles. Click **Create**.
+9. After completing your API configuration, your browser downloads a **credentials.json** file containing your service account key. Store this file in a secure and accessible location. You'll use it exclusively to provide access tokens for API calls from the client-side SDK.
 
 > **Tip:**
 > When creating roles and policies and granting access to your vault, keep the following best practices in mind:
@@ -224,7 +223,6 @@ module.exports = {
  },
 }
 ```
-
 2. Replace **vaultID** and **vaultURL** with the values for your vault.
 3. Save the file.
 
