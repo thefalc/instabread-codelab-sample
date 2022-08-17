@@ -3,13 +3,13 @@
 ## Introduction
 ### Secure PII collection and money movement with Skyflow and Moov
 
-This codelab is an introduction to creating a modern privacy-preserving application that supports secure PII data collection and payments. You’ll use Skyflow’s Data Privacy Vault available as an API and Moov’s payment APIs to create a gig worker app sign up flow and payment experience.
+This codelab is an introduction to creating a modern privacy-preserving application that supports secure PII data collection and payments. You'll use Skyflow's Data Privacy Vault available as an API and Moov's payment APIs to create a gig worker app sign up flow and payment experience.
 
-### What you’ll build
+### What you'll build
 
 Instabread is a fictitious company that supports a marketplace for bread enthusiasts (Instabread clients) to shop for and order bread on-demand from the comfort of their homes. Instabread shoppers receive notifications about orders on their mobile device and travel to the stores to pick up and deliver the bread to the Instabread client. Shoppers are paid based on successful delivery of tasty tasty bread goods.
 
-In this codelab, you’re going to extend the shopper sign up experience to safely and securely store PII data within a Skyflow Vault and transfer money from Instabread to a shopper through Moov.
+In this codelab, you're going to extend the shopper sign up experience to safely and securely store PII data within a Skyflow Vault and transfer money from Instabread to a shopper through Moov.
 
 <p align="center">
   <img src="/images/instabread-overview.png" />
@@ -21,9 +21,9 @@ In this codelab, you’re going to extend the shopper sign up experience to safe
 * How to configure a Skyflow Connection between your vault and your Moov account.
 * How to use the Moov APIs securely through Skyflow.
 
-### What you’ll need
-* A Skyflow trial environment account. If you don’t have one, you can register for one on the [Try Skyflow](https://skyflow.com/try-skyflow) page.
-* A Moov account. If you don’t have one, [sign up here](https://dashboard.moov.io/signup).
+### What you'll need
+* A Skyflow trial environment account. If you don't have one, you can register for one on the [Try Skyflow](https://skyflow.com/try-skyflow) page.
+* A Moov account. If you don't have one, [sign up here](https://dashboard.moov.io/signup).
 * A computer with [ngrok](https://ngrok.com/) and [Node.js version 10](https://nodejs.org/en/) or above installed.
 
 > **Note:**
@@ -32,7 +32,7 @@ In this codelab, you’re going to extend the shopper sign up experience to safe
 ## Getting set up
 
 ### Get the starter code
-In a terminal, clone the Instabread sample code to your project’s working directory with the following command:
+In a terminal, clone the Instabread sample code to your project's working directory with the following command:
 
 ```shell
 git clone https://github.com/thefalc/instabread-codelab-sample
@@ -40,7 +40,7 @@ git clone https://github.com/thefalc/instabread-codelab-sample
 
 ### Understand the starter code
 
-Let’s take a look at the starter code structure that you’ll work with throughout the codelab. The project uses the Next.js framework, but even if you’ve never worked with this framework before, you should be able to complete the lab.
+Let's take a look at the starter code structure that you'll work with throughout the codelab. The project uses the Next.js framework, but even if you've never worked with this framework before, you should be able to complete the lab.
 
 Navigate to the [**/baseline**](/baseline) directory within the repository and view its content. It has the following elements:
 
@@ -65,7 +65,7 @@ npm run dev
 
 ## Skyflow Studio and API credentials
 
-Skyflow Studio is a web-based app for creating and managing vaults. You can also do all vault operations via APIs, but for this codelab you’ll use the Studio.
+Skyflow Studio is a web-based app for creating and managing vaults. You can also do all vault operations via APIs, but for this codelab you'll use the Studio.
 
 ![Skyflow Studio](images/skyflow-studio-dashboard.png "Skyflow Studio")
 
@@ -95,7 +95,7 @@ Once the vault is created, take a few minutes to explore the schema. There are t
 * **shoppers_bank_information:** has columns representing the bank account information for the Instagread shoppers
 
 > **Note:**
-> When defining the schema for a vault, the Skyflow platform supports both basic data types (like you’d find in any database) and pre-defined Skyflow Data Types, which encapsulate common PII elements defined for your convenience. This includes data types like social security number, email, name, address, and credit card. Most of the columns in this schema use the Skyflow Data Types.
+> When defining the schema for a vault, the Skyflow platform supports both basic data types (like you'd find in any database) and pre-defined Skyflow Data Types, which encapsulate common PII elements defined for your convenience. This includes data types like social security number, email, name, address, and credit card. Most of the columns in this schema use the Skyflow Data Types.
 
 In the shoppers table, click any column header's down arrow and select **View column**.
 
@@ -107,7 +107,7 @@ Within the column settings, there are four tabs: **General**, **Redaction**, **E
 
 ##### General
 
-The General tab has basic details about the column, including the name, description, base data type, whether the values should be unique, and a regular expression for validating new data as it’s inserted into the vault. In the preceding email example, the column uses a regular expression to automatically validate that new data looks like an email on insertion.
+The General tab has basic details about the column, including the name, description, base data type, whether the values should be unique, and a regular expression for validating new data as it's inserted into the vault. In the preceding email example, the column uses a regular expression to automatically validate that new data looks like an email on insertion.
 
 ##### Redaction
 
@@ -131,7 +131,7 @@ All data within the vault is encrypted at rest and during transit. However, thro
 
 [Tokenization](https://www.skyflow.com/post/demystifying-tokenization-what-every-engineer-should-know) is a privacy-preserving technique that substitutes sensitive data with non-sensitive tokens. Tokens have no exploitable value and are safely stored within your database and other downstream services. The token is only exchanged for the original value by privileged services.
 
-For the email column, the default configuration uses a **Format Preserving Deterministic Token**. This means the token still looks like an email but isn’t the actual email.
+For the email column, the default configuration uses a **Format Preserving Deterministic Token**. This means the token still looks like an email but isn't the actual email.
 
 <p align="center">
   <img src="images/skyflow-tokenization-tab.png" width="500" />
@@ -148,18 +148,18 @@ Before jumping into the code, you need to create a role, policy, and service acc
 </p>
 
 1. Click **Roles > Add New Role**.
-1. Enter **Client SDK** for Name, enter a Description, then click **Create**.
-1. Click **Attach Policies**and replace the placeholder content with the following policies:
+2. Enter **Client SDK** for Name, enter a Description, then click **Create**.
+3. Click **Attach Policies** and replace the placeholder content with the following policies:
 
 ```
 ALLOW CREATE ON *.*
 ALLOW TOKENIZATION
 ```
-1. Click **Create**, enter **Client SDK** for the policy name. Click **Save**.
-1. Select the **Enable** option, then close the window.
-1. Click **Service Accounts > New Service Account**.
-1. Enter *Your Name* - Client SDK" and choose **Client SDK** for Roles. Click **Create**.
-1. After completing your API configuration, your browser downloads a`credentials.json` file containing your service account key. Store this file in a secure and accessible location. You'll use it exclusively to provide access tokens for API calls from the client-side SDK.
+4. Click **Create**, enter **Client SDK** for the policy name. Click **Save**.
+5. Select the **Enable** option, then close the window.
+6. Click **Service Accounts > New Service Account**.
+7. Enter *Your Name* - Client SDK" and choose **Client SDK** for Roles. Click **Create**.
+8. After completing your API configuration, your browser downloads a **credentials.json** file containing your service account key. Store this file in a secure and accessible location. You'll use it exclusively to provide access tokens for API calls from the client-side SDK.
 
 > **Tip:**
 > When creating roles and policies and granting access to your vault, keep the following best practices in mind:
@@ -182,12 +182,12 @@ The source code for the Instabread app assumes the service account key is availa
 
 ## Account creation
 
-In this section, you'll' collect the Instabread shopper account information and send it securely to your vault using the Skyflow client-side SDK.
+In this section, you'll collect the Instabread shopper account information and send it securely to your vault using the Skyflow client-side SDK.
 
 ### Understanding the code
 
 1. Open the [**components/Layout.js**](/baseline/components/Layout.js) file. Every client-side page uses this file for creating the base HTML for the page layout.
-1. At the top of the file, there’s a function called **getBearerToken**. This function calls the server endpoint, **api/skyflow-token**, which uses your service account key to generate an access token. Your client-side code uses the token to call the APIs for your vault. You don’t need to make any updates or modifications to this file.
+1. At the top of the file, there's a function called **getBearerToken**. This function calls the server endpoint, **api/skyflow-token**, which uses your service account key to generate an access token. Your client-side code uses the token to call the APIs for your vault. You don't need to make any updates or modifications to this file.
 1. Open the [**pages/sign-up.js**](/baseline/pages/sign-up.js) file. This file is the frontend for the shopper account creation page.
 1. Move down to the function named **signUpHandler**. When you click the **Create account** button, it invokes this function.
 
@@ -225,8 +225,8 @@ module.exports = {
 }
 ```
 
-1. Replace **vaultID** and **vaultURL** with the values for your vault.
-1. Save the file.
+2. Replace **vaultID** and **vaultURL** with the values for your vault.
+3. Save the file.
 
 ### Insert data into the vault
 
@@ -249,7 +249,7 @@ let response = await skyflowClient.insert({
  }, { tokens: true });
 ```
 
-The state object has the form field values entered by the shopper. This code uses the Skyflow client to insert a single record into the shoppers table with the values collected from the form.
+The state object has the form field values entered by the shopper. This code uses the Skyflow client to insert a single record into the **shoppers** table with the values collected from the form.
 
 Because the parameter `{ tokens: true }` passes the call as an option to the insert function, tokenized values returned by the API are part of the response object.
 
@@ -259,22 +259,22 @@ Before testing the code, copy the line below and paste it beneath the insert cal
 alert(JSON.stringify(response));
 ```
 
-### Testing the account sign up
+### Test the account sign up
 
 1. From the same terminal that you exported the **SERVICE_ACCOUNT_KEY** variable, enter the following command:
 ```shell
 npm run dev
 ```
-1. Navigate to **http://localhost:3000** in your browser.
-1. Click the **Sign Up** button.
-1. FComplete all fields in the form. There’s currently no client-side form validation, so make sure you fill in everything.
-1. Click **Create Account**. Once the call is complete, an alert message displays, like the example shown below, containing the JSON response from the API.
+2. Navigate to **http://localhost:3000** in your browser.
+3. Click the **Sign Up** button.
+4. Complete all fields in the form. There's currently no client-side form validation, so make sure you fill in everything.
+5. Click **Create Account**. Once the call is complete, an alert message displays, like the example shown below, containing the JSON response from the API.
 
 <p align="center">
   <img src="images/instabread-json-alert.png" width="300" />
 </p>
 
-1. Return to the vault schema page in Skyflow Studio to view the newly created record. You may need to refresh the table if you were already in the schema view.
+6. Return to the vault schema page in Skyflow Studio to view the newly created record. You may need to refresh the table if you were already in the schema view.
 
 ### Saving the tokenized data
 
@@ -298,12 +298,12 @@ if(result.ok === true) {
 }
 ```
 
-The fetch call passes the tokenized data to the server endpoint `api/sign-up`.
+The fetch call passes the tokenized data to the server endpoint **api/sign-up**.
 
 Navigate to the [**pages/api/sign-up.js**](/baseline/pages/api/sign-up.js) file and inspect the **handler**. This code receives the data and stores the **skyflow_id** and tokenized data to a user session variable.
 
 > **Note:**
-> In a real app, you would likely store the **skyflow_id** and tokens in your app database and downstream services to reference and use later. For simplicity of this lab, you’ll rely on session memory to play this role.
+> In a real app, you would likely store the **skyflow_id** and tokens in your app database and downstream services to reference and use later. For simplicity of this lab, you'll rely on session memory to play this role.
 
 Try testing the sign up form again, making sure to complete all fields. This time, the shopper record saves to the vault, and a new page displays, explaining the Instabread experience.
 
@@ -322,7 +322,7 @@ and locate the **chooseStoreHandler** function. Clicking the **Continue** button
 ### Inserting data into the vault
 
 1. In the **chooseStoreHandler** function, remove the line beginning with **alert**.
-1. Below the **for loop**, used to initialize the **storeMapping** object, initialize the **skyflowClient** with the following code and your vault values from earlier in the lab.
+2. Below the **for loop**, used to initialize the **storeMapping** object, initialize the **skyflowClient** with the following code.
 
 ```javascript
 const skyflowClient = Skyflow.init({
@@ -335,7 +335,7 @@ const skyflowClient = Skyflow.init({
 });
 ```
 
-1. After initializing the **skyflowClient** object, insert the **storeMapping** records by adding the following lines below the client initialization:
+3. After initializing the **skyflowClient** object, insert the **storeMapping** records by adding the following lines below the client initialization:
 
 ```javascript
 await skyflowClient.insert({ records: storeMapping });
@@ -352,10 +352,10 @@ The first line inserts the array of store mappings and the second line progresse
 npm run dev
 ```
 
-1. Navigate to **http://localhost:3000** in your browser.
-1. Click the **Sign Up** button.
-1. Complete all fields in the form. There’s currently no client-side form validation, so make sure you fill in everything.
-1. Click **Create Account**. A screen displays explaining how Instabread works.
+2. Navigate to **http://localhost:3000** in your browser.
+3. Click the **Sign Up** button.
+4. Complete all fields in the form. There's currently no client-side form validation, so make sure you fill in everything.
+5. Click **Create Account**. A screen displays explaining how Instabread works.
 
 > **Note:**
 > If you don't see the screen below, there is a possible error in the client-side code that creates the account. Return to the [Saving the tokenized data](#saving-the-tokenized-data) section and verify the code for the sign up page.
@@ -364,42 +364,42 @@ npm run dev
   <img src="images/how-instabread-works.png" width="500" />
 </p>
 
-1. Click **Continue**.
-1. On the shopper requirements page, select the **I meet the requirements** option.
-1. A page, like the screenshot below, displays.
+6. Click **Continue**.
+7. On the shopper requirements page, select the **I meet the requirements** option.
+8. A page, like the screenshot below, displays.
 
 <p align="center">
   <img src="images/choose-store.png" width="500" />
 </p>
 
-1. Select at least one option and click **Continue**.
-1. Once the screen shows the direct deposit page, return to your Skyflow Studio vault schema view. Click the tab for the **shoppers_stores** table and one to four records displays, depending on how many stores you selected.
+9. Select at least one option and click **Continue**.
+10. Once the screen shows the direct deposit page, return to your Skyflow Studio vault schema view. Click the tab for the **shoppers_stores** table and one to four records displays, depending on how many stores you selected.
 
 ## Connecting Skyflow to Moov
 
 Congratulations on making it this far!
 
-You successfully collected PII from the Instabread shopper app in a secure way by sending it directly from the front-end to your data privacy vault. Your backend system is completely de-scoped from ever touching any of this sensitive data.
+You successfully collected PII from the Instabread shopper app in a secure way by sending it directly from the frontend to your data privacy vault. Your backend system is completely de-scoped from ever touching any of this sensitive data.
 
-The next step is to collect banking information from the shopper, securely store it, passrelevant information to Moov, and then use Moov's money movement APIs to pay the shopper. Let’s begin by creating a Skyflow Connection to Moov.
+The next step is to collect banking information from the shopper, securely store it, pass relevant information to Moov, and then use Moov's money movement APIs to pay the shopper. Let's begin by creating a Skyflow Connection to Moov.
 
 ### Create a Skyflow connection
 
-Skyflow Connections is a gateway service that uses Skyflow’s underlying tokenization capabilities to securely connect to first party and third party services. This way, your infrastructure is never directly exposed to sensitive data, and you offload security and compliance requirements to Skyflow.
+Skyflow Connections is a gateway service that uses Skyflow's underlying tokenization capabilities to securely connect to first party and third party services. This way, your infrastructure is never directly exposed to sensitive data, and you offload security and compliance requirements to Skyflow.
 
 You need to create a connection between Skyflow and Moov so you can pass stored PII to Moov without exposing your backend to the plaintext values.
 
 To create the connection:
 
-1. Open Skyflow Studio to your vault’s schema view. Click the gear icon next to your vault name and click **Edit Settings**.
+1. Open Skyflow Studio to your vault's schema view. Click the gear icon next to your vault name and click **Edit Settings**.
 1. Click **Connections** > **Create Connection** > **Start from scratch**.
 1. Name the connection **Moov**. Optional: Enter a description.
 1. Select **Outbound Connection** as the connection mode.
-1. Set the Outbound Base URL to [https://api.moov.io](https://api.moov.io) and click **Continue**.
+1. Set the Outbound Base URL to **https://api.moov.io** and click **Continue**.
 
 #### Configure the Moov account route
 
-You need to create two routes, one for creating a Moov account and the other for passing bank account data to Moov. Let’s start with the Moov account.
+You need to create two routes, one for creating a Moov account and the other for passing bank account data to Moov. Let's start with the Moov account.
 
 To create an individual account with Moov directly, you make an API call:
 
@@ -423,24 +423,24 @@ curl -X POST 'https://api.moov.io/accounts'
   }'
 ```
 
-The Skyflow route has a similar structure, but instead of accepting the plaintext values for `firstName`, `lastName`, and `email`, the API expects Skyflow tokens.
+The Skyflow route has a similar structure, but instead of accepting the plaintext values for **firstName**, **lastName**, and **email**, the API expects Skyflow tokens.
 
 1. Enter the route details including the name, description, path, method, and content type.
     1. **Name**: Moov Account Creation.
-    1. **Path**: The path value is **/accounts**. When combined with the outbound base URL, it maps to Moov’s API with the full path URL, [https://api.moov.io/accounts](https://api.moov.io/accounts).
+    1. **Path**: The path value is **/accounts**. When combined with the outbound base URL, it maps to Moov's API with the full path URL, [https://api.moov.io/accounts](https://api.moov.io/accounts).
     1. **Method**: Skyflow connections support the following http methods: PUT, POST, PATCH, GET, DELETE. For the  account creation, use the **POST** method.
-    1. **Content Type**: Skyflow connections support the following content types: JSON, XML, X_WWW_FORM_URLENCODED. Select the JSON content type.
-1. Move down the page and complete the route mappings for the request body.
+    1. **Content Type**: Skyflow connections support the following content types: JSON, XML, X_WWW_FORM_URLENCODED. Select the raw and JSON content type.
+2. Move down the page and complete the route mappings for the request body.
 
     The request body configures the specific fields in the request that Skyflow processes.  Currently, Skyflow supports two actions that can perform on a field: **Tokenization** and **Detokenization**.
 
-    For this route, configure the connection to detokenize the request and extract the values associated with three fields: `profile.individual.name.firstName`, `profile.individual.name.lastName`, and `profile.individual.email`, like the example below.
+    For this route, configure the connection to detokenize the request and extract the values associated with three fields: **profile.individual.name.firstName**, **profile.individual.name.lastName**, and **profile.individual.email**, like the example below. These field names map to the JSON structure that the Moov API expects in a create account call.
 
 <p align="center">
   <img src="images/skyflow-moov-account-route.png" width="500" />
 </p>
 
-1. Click **Continue > Create Connection**.
+3. Click **Continue > Create Connection**.
 
 #### Authenticate the connection-level service account
 
@@ -462,30 +462,30 @@ Before you head back to the Instabread code, you need to create one more route t
 ![Connections UI](images/skyflow-connections-ui.png "Connections UI")
 
 1. Go to **Route** and click **+ Add route**.
-1. Enter the route details including the name, description, path, method, and content type.
+2. Enter the route details including the name, description, path, method, and content type.
     1. **Name**: Enter “Moov Bank Account Creation”
-    1. **Path**: `/accounts/{account_id}/bank-accounts`
+    1. **Path**: **/accounts/{account_id}/bank-accounts**
     1. **Method**: Use the **POST** method.
     1. **Content Type**: Raw and JSON.
-1. Scroll down the page and complete the route mappings for the **Request body**.
+3. Scroll down the page and complete the route mappings for the **Request body**.
    For this route, configure the connection to detokenize the request and extract the values associated with three fields: **account.holderName**, **account.accountNumber**, and **account.routingNumber**, like the below example:
 
 <p align="center">
   <img src="images/skyflow-bank-account-creation-route.png" width="500" />
 </p>
 
-1. Click **Save Route** and then click **Save**.
+4. Click **Save Route** and then click **Save**.
 
 #### Configure your connections service account for Instabread
 
 Your Skyflow connection and routes are all set. For Instabread to call the routes you configured, you need to create another environment variable for the connections-specific service account key credentials file you downloaded.
 
-1. In the terminal where you’ve been running your Instabread app, stop the app if it's currently running.
-1. Enter the command
+1. In the terminal where you've been running your Instabread app, stop the app if it's currently running.
+2. Enter the command
     ```shell
     export CONNECTIONS_SERVICE_ACCOUNT_KEY='CONTENTS FROM CONNECTIONS-SPECIFIC credentials.json'
     ```
-1. You'll use this service account key later to invoke the connection to Moov. It creates the shopper’s Moov account and registers their banking information.
+3. You'll use this service account key later to invoke the connection to Moov. It creates the shopper's Moov account and registers their banking information.
 
 ### Configure Moov API
 
@@ -511,7 +511,7 @@ If your Instabread app is running, go to the forwarding address shown by ngrok.
 1. In the navigation menu, select **Developers > New API Key**.
 1. Enter a name for the API Key and paste into your ngrok https URL.
 1. Click **Create API key**.
-1. You’ll be shown a **Public key** and **Secret key**.
+1. You'll be shown a **Public key** and **Secret key**.
 1. Copy the Public key and in the terminal running Instabread, stop the app and type **export MOOV_PUBLIC_KEY=&lt;COPIED PUBLIC KEY>**.
 1. Copy the Secret key and in the same terminal, type **export MOOV_SECRET_KEY=&lt;COPIED SECRET KEY>**.
 1. Copy your ngrok https URL and in the same terminal, type **export MOOV_DOMAIN=&lt;COPIED ngrok URL>**.
@@ -521,7 +521,7 @@ If your Instabread app is running, go to the forwarding address shown by ngrok.
 
 #### Moov business account details
 
-The last thing you need is your Moov business account details. You’ll use these details to transfer money from your business account to your gig workers.
+The last thing you need is your Moov business account details. You'll use these details to transfer money from your business account to your gig workers.
 
 1. In the Moov admin dashboard, click **Settings** in the navigation menu.
 1. Select **Business details** copy the **Account ID**.
@@ -533,13 +533,13 @@ In this section, you'll collect the Instabread shopper bank information and use 
 
 ### Creating the Moov account
 
-The first step is to update the client-side code to call the server. You’ll use one of the routes configured in Skyflow Studio to create the Moov account and update the server-side code.
+The first step is to update the client-side code to call the server. You'll use one of the routes configured in Skyflow Studio to create the Moov account and update the server-side code.
 
 #### Understand the code
 
 1. Open the [**pages/banking-info.js**](/baseline/pages/banking-info.js) file. This file is the frontend for the shopper bank information entry.
 2. Move down to a function called **bankingHandler**. Clicking the **Continue** button invokes this function.
-3. Presently, when you invoke this function, it shows an alert to the user informing them that this feature doesn’t exist yet. You’ll update this function to send the collected data to your vault.
+3. Presently, when you invoke this function, it shows an alert to the user informing them that this feature doesn't exist yet. You'll update this function to send the collected data to your vault.
 
 #### Using the route to create the Moov account
 
@@ -573,7 +573,7 @@ The code is calling the endpoint **/api/moov-account-creation**, which does the 
 
 #### Connection route URL
 
-1. Go back to Skyflow Studio and from your vault’s schema view, click the gear icon next to your vault name and then click **Edit Settings**.
+1. Go back to Skyflow Studio and from your vault's schema view, click the gear icon next to your vault name and then click **Edit Settings**.
 1. Click **Connections**. From the list, expand the connection you created earlier and find the route called Moov Account Creation.
 1. Click **Sample request** and copy the **Path**. This is your route URL. Paste the path back in the [**pages/api/moov-account-creation.js**](/baseline/pages/api/moov-account-creation.js) as the value to the **connectionsRouteUrl** variable.
 
@@ -588,18 +588,18 @@ The code is calling the endpoint **/api/moov-account-creation**, which does the 
 ```shell
 npm run dev
 ```
-1. Navigate to **http://localhost:3000** in your browser.
-1. Go through the various screens until you reach the **Set up direct deposit** page and click **Continue**.
-1. Although the capability doesn’t exist yet, if you’ve done everything correctly, the Moov account for your shopper should exist. Log into the Moov admin dashboard. Under **Accounts**, you should see the shopper name and email listed.
+2. Navigate to **http://localhost:3000** in your browser.
+3. Go through the various screens until you reach the **Set up direct deposit** page and click **Continue**.
+4. Although the capability doesn't exist yet, if you've done everything correctly, the Moov account for your shopper should exist. Log into the Moov admin dashboard. Under **Accounts**, you should see the shopper name and email listed.
 
 ### Creating the Moov bank account
 
-Now that your shopper has a Moov account, you need to collect the shopper’s bank information, store it in the vault, and then use your other connection route to pass the bank information securely to Moov.
+Now that your shopper has a Moov account, you need to collect the shopper's bank information, store it in the vault, and then use your other connection route to pass the bank information securely to Moov.
 
 #### Understand the code
 
 1. Open the [**/pages/banking-info.js**](/baseline/pages/banking-info.js) file and find the **bankingHandler** function again.
-1. Find the **// TODO** inside the **bankingHandler** and replace it with the code below.
+2. Find the **// TODO** inside the **bankingHandler** and replace it with the code below.
 
 ```javascript
 const skyflowClient = Skyflow.init({
@@ -641,15 +641,15 @@ if(payload.ok === true) {
 }
 ```
 
-1. Similar to the code you added for storing the shopper account information in the vault, this code is storing the banking information in the vault and receiving tokens back. The tokens are then posted to the **/api/moov-bank-account-creation** endpoint.
-1. Open the file [**pages/api/moov-bank-account-creation.js**](/baseline/pages/api/moov-bank-account-creation.js). This handler accepts the tokens representing the banking information from the shopper and securely shares them with Moov via the second route you created earlier.
-1. Move down to the line beginning with **let connectionsRouteUrl**. Update this URL to the Moov Bank Account Creation route URL. Make sure you replace the **{accountId}** part in the URL with the **moovAccountId** constant similar to the following:
+3. Similar to the code you added for storing the shopper account information in the vault, this code is storing the banking information in the vault and receiving tokens back. The tokens are then posted to the **/api/moov-bank-account-creation** endpoint.
+4. Open the file [**pages/api/moov-bank-account-creation.js**](/baseline/pages/api/moov-bank-account-creation.js). This handler accepts the tokens representing the banking information from the shopper and securely shares them with Moov via the second route you created earlier.
+5. Move down to the line beginning with **let connectionsRouteUrl**. Update this URL to the Moov Bank Account Creation route URL. You can find this in Skyflow Studio by clicking the **Sample Request** link for the oMov Bank Account Creation route. Make sure you replace the **{accountId}** part in the URL with the **moovAccountId** constant similar to the following:
 
 ```javascript
 let connectionsRouteUrl = `https://ebfc9bee4242.gateway.skyflowapis.com/v1/gateway/outboundRoutes/h3e5a644a8674b29a9bfcbdfbccf16fe/accounts/${moovAccountId}/bank-accounts`;
 ```
 
-#### Testing the result
+#### Test the result
 
 1. From the same terminal that you exported your environment variables, enter the following command:
 
@@ -657,13 +657,13 @@ let connectionsRouteUrl = `https://ebfc9bee4242.gateway.skyflowapis.com/v1/gatew
 npm run dev
 ```
 
-1. Navigate to **http://localhost:3000** in your browser.
-1. Go through the various screens until you reach the **Set up direct deposit** screen.
-1. Fill in the **Holder name** with anything you wish.
-1. For the **Routing number**, enter 322271627, which is Chase Bank’s routing number.
-1. For the **Account number**, enter 0004321567000, which is a valid test bank account number for Moov.
-1. Click **Continue**.
-1. When the app successfully displays the Congratulations page, go to Skyflow Studio and check the **shoppers_bank_information** table. It shows a new record. Additionally, if you look at the latest account in your Moov administrator dashboard, there is a payment method listed under the account information.
+2. Navigate to **http://localhost:3000** in your browser.
+3. Go through the various screens until you reach the **Set up direct deposit** screen.
+4. Fill in the **Holder name** with anything you wish.
+5. For the **Routing number**, enter 322271627, which is Chase Bank's routing number.
+6. For the **Account number**, enter 0004321567000, which is a valid test bank account number for Moov.
+7. Click **Continue**.
+8. When the app successfully displays the Congratulations page, go to Skyflow Studio and check the **shoppers_bank_information** table. It shows a new record. Additionally, if you look at the latest account in your Moov administrator dashboard, there is a payment method listed under the account information.
 
 ![Moov payment information page](images/moov-account-payment-information.png "Moov payment information page")
 
@@ -671,13 +671,13 @@ npm run dev
 
 Congratulations! You're nearly done.
 
-All you need to do now is make sure your shoppers get paid. The Instabread shopper app is set up to automatically owe the shopper $64.00 for completed deliveries. In this section, you’ll add the final piece of client-side code to securely issue a transaction to pay the shopper.
+All you need to do now is make sure your shoppers get paid. The Instabread shopper app is set up to automatically owe the shopper $64.00 for completed deliveries. In this section, you'll add the final piece of client-side code to securely issue a transaction to pay the shopper.
 
 ### Understanding the code
 
-1. Open the [**pages/cashout.js**](/baseline/pages/cashout.js) file. This is the frontend code for confirming that a shopper wants to cashout the money they’ve earned.
+1. Open the [**pages/cashout.js**](/baseline/pages/cashout.js) file. This is the frontend code for confirming that a shopper wants to cashout the money they've earned.
 1. Move down to the **cashOutHandler**. Clicking on the **Cashout $64.00** button calls this function. It currently makes an API call to the **/api/cashout** endpoint.
-1. Open the [**pages/api/cashout.js**](/baseline/pages/api/cashout.js) file. Presently, this handler function doesn’t do anything. You need to add the Moov API calls to carry out a money transfer. You use the Moov APIs instead of Skyflow because sensitive data isn’t exchanged.
+1. Open the [**pages/api/cashout.js**](/baseline/pages/api/cashout.js) file. Presently, this handler function doesn't do anything. You need to add the Moov API calls to carry out a money transfer. You use the Moov APIs instead of Skyflow because sensitive data isn't exchanged.
 1. Copy the code below and replace the **// TODO** line in the **handler** function.
 
 ```javascript
@@ -716,15 +716,15 @@ The code uses a helper function called **getPaymentMethodId**. It uses the Moov 
 ```shell
 npm run dev
 ```
-1. Navigate to **http://localhost:3000** in your browser.
-1. Go through the various screens until you reach the **Set up direct deposit** page.
+2. Navigate to **http://localhost:3000** in your browser.
+3. Go through the various screens until you reach the **Set up direct deposit** page.
     1. Fill in the **Holder name** with anything you wish.
-    1. For the **Routing number**, enter 322271627, which is Chase Bank’s routing number.
+    1. For the **Routing number**, enter 322271627, which is Chase Bank's routing number.
     1. For the **Account number**, enter 0004321567000, which is a valid test bank account number for Moov.
-1. Click **Continue**.
-1. Click **Continue to my home screen**, **Cashout $64.00**, and finally **Cashout $64.00** on the **Instant checkout** screen. If everything works, a page displays the message, "Transferring $64.00 to your bank account ending in 7000."
+4. Click **Continue**.
+5. Click **Continue to my home screen**, **Cashout $64.00**, and finally **Cashout $64.00** on the **Instant checkout** screen. If everything works, a page displays the message, "Transferring $64.00 to your bank account".
 
-Go to the Moov admin dashboard to view your shopper’s account. Click the **Transfer** tab to view the transaction.
+Go to the Moov admin dashboard to view your shopper's account. Click the **Transfer** tab to view the transaction.
 
 ![Moov transfer page](images/moov-transfer-screen.png "Moov transfer page")
 
@@ -734,9 +734,9 @@ Congratulations on completing the data privacy and payments codelab!
 
 You successfully created a gig worker sign-up and payment process that collects PII and ACH information and issues money movement transfers through Moov.
 
-### What’s next?
+### What's next?
 
-* Currently, the cashout screens don’t display bank account information. Take a look at the [reading data from a vault](https://docs.skyflow.com/core-apis/#read-data-from-the-vault) guide to explore how you display just the last four digits of the bank account number in the cashout UI.
+* Currently, the cashout screens don't display bank account information. Take a look at the [reading data from a vault](https://docs.skyflow.com/core-apis/#read-data-from-the-vault) guide to explore how you display just the last four digits of the bank account number in the cashout UI.
 * The app session stores the tokenized data. Ideally, your app database would store this information. Try extending Instabread to integrate with an app database and even a data warehouse.
 
 ### Further reading
